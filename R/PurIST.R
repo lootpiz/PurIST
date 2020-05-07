@@ -13,6 +13,7 @@
 #' @author Heewon Seo, \email{Heewon.Seo@uhnresearch.ca}
 #'
 #' @export
+#' @importFrom gtools inv.logit
 PurIST <- function(dat)
 {
     biomarkers = c("GPR87", "REG4", "GPR87", "REG4", "KRT6A", 
@@ -20,7 +21,7 @@ PurIST <- function(dat)
         "LGALS4", "C16orf74", "DDC", "S100A2", "SLC40A1", "KRT5", 
         "CLRN3")
 
-    has_genes = is.element(names(dat), biomarkers)
+    has_genes = is.element(biomarkers, names(dat))
     if (!all(has_genes)) {
         stop(sprintf("Please provide the following genes\n%s",
             paste(biomarkers, collapse = ", ")))
@@ -41,5 +42,5 @@ PurIST <- function(dat)
 
     penal <- c(penal_1, penal_2, penal_3, penal_4, penal_5, penal_6, penal_7, penal_8)
 
-    return( inv.logit(intercept + sum(coefficient * penal)) )
+    return( gtools::inv.logit(intercept + sum(coefficient * penal)) )
 }
