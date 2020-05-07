@@ -1,0 +1,32 @@
+---
+title: "rePurIST"
+author:
+- name: Heewon Seo
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rePurIST}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+A package to characterize patient demographics
+
+## Install the package
+```{r install, eval=FALSE}
+intall.packages("devtools")
+library(devtools)
+devtools::install_github("lootpiz/rePurIST")
+```
+
+## Load the package
+```{r setup}
+library(rePurIST)
+```
