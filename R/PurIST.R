@@ -1,6 +1,6 @@
 #' PurIST
 #'
-#' iPurity Independent Subtyping of Tumors
+#' Purity Independent Subtyping of Tumors
 #'
 #' @param dat \code{vector} A single sample gene expression profile 
 #'     with gene symbols in names
