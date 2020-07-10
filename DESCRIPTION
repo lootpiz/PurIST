@@ -1,12 +1,12 @@
-Package: rePurIST
-Title: Replication of PurIST
+Package: PurIST
+Title: Implementation of PurIST
 Version: 0.0.1
 Authors@R: 
     person(given = "Heewon",
            family = "Seo",
            role = c("aut", "cre"),
            email = "Heewon.Seo@uhnresearch.ca")
-Description: Replication of Purity Independent Subtyping of Tumors (PurIST) that was 
+Description: Implementation of Purity Independent Subtyping of Tumors (PurIST) that was 
     published in the Clinical Cancer Research (Rashid and Peng et al, 2020; 
     DOI: 10.1158/1078-0432.CCR-19-1467).
 License: None

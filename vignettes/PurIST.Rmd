@@ -1,0 +1,69 @@
+---
+title: "PurIST"
+author:
+- name: Heewon Seo
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PurIST}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+Implementation of Purity Independent Subtyping of Tumors (PurIST) that was 
+published in the Clinical Cancer Research (Rashid and Peng et al, 2020; 
+DOI: 10.1158/1078-0432.CCR-19-1467).
+
+## Install the package
+```{r install, eval=FALSE}
+intall.packages("devtools")
+library(devtools)
+devtools::install_github("lootpiz/PurIST")
+```
+
+## Load the package
+```{r setup}
+library(PurIST)
+```
+
+## A single sample classicifaction
+```{r example, eval=FALSE}
+prob = PurIST(dat)
+```
+
+## MetaGxPancreas subtyping
+```{r metagx}
+library(PurIST)
+library(MetaGxPancreas)
+library(data.table)
+
+esets <- MetaGxPancreas::loadPancreasEsets()[[1]]
+
+esetExprs <- lapply(esets, FUN=exprs)
+esetNames <- names(esetExprs)
+esetSamples <- lapply(esetExprs, FUN=colnames)
+
+.tryPurIST <- function(col, names) {
+    tryCatch({PurIST(structure(col, .Names=names))},
+             error=function(e) {
+                 return(NA)
+             })
+}
+
+.PurISTExprColumns <- function(expr) apply(expr, 2, FUN=.tryPurIST, names=row.names(expr))
+
+objList <- lapply(esetExprs, FUN=.PurISTExprColumns)
+
+resultsDtL <- mapply(data.table, 'study'=esetNames, 'sample'=esetSamples, 'prob'=objList, SIMPLIFY=FALSE)
+resultsDT <- rbindlist(resultsDtL)
+resultsDT[, subtype := ifelse(prob > 0.5, "Basal-like", "Classical")]
+
+table(resultsDT$subtype)
+
